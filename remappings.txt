@@ -1,1 +1,2 @@
 @uniswap/lib/contracts/libraries/=src/lib/
+@uniswap/v2-core/contracts/=lib/UniswapV2CoreFoundryFriendly/src

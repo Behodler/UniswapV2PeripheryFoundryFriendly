@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: CC-BY-4.0
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
@@ -6,21 +5,21 @@ pragma solidity 0.8.20;
 // license is CC-BY-4.0
 library FullMath {
     function fullMul(uint256 x, uint256 y) internal pure returns (uint256 l, uint256 h) {
-        uint256 mm = mulmod(x, y, uint256(-1));
+        uint256 mm = mulmod(x, y, type(uint256).max);
         l = x * y;
         h = mm - l;
         if (mm < l) h -= 1;
     }
 
-    function fullDiv(
+   function fullDiv(
         uint256 l,
         uint256 h,
         uint256 d
     ) private pure returns (uint256) {
-        uint256 pow2 = d & -d;
+        uint256 pow2 = d & (~d + 1); // equivalent to d & -d for uint256
         d /= pow2;
         l /= pow2;
-        l += h * ((-pow2) / pow2 + 1);
+        l += h * (uint256(-int256(pow2)) / pow2 + 1);
         uint256 r = 1;
         r *= 2 - d * r;
         r *= 2 - d * r;
@@ -32,7 +31,7 @@ library FullMath {
         r *= 2 - d * r;
         return l * r;
     }
-
+    
     function mulDiv(
         uint256 x,
         uint256 y,
