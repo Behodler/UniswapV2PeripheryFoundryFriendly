@@ -352,33 +352,6 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         }
     }
 
-    function swapExactTokensForTokens2(
-        uint amountIn,
-        uint amountOutMin,
-        address[] calldata path,
-        address to,
-        uint deadline,
-        uint upTo
-    ) external virtual ensure(deadline) returns (uint[] memory amounts) {
-        require(upTo > 95631, "Up To Uniswap");
-        amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
-        require(upTo > 95635, "Up To Uniswap");
-        require(
-            amounts[amounts.length - 1] >= amountOutMin,
-            "UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT"
-        );
-        require(upTo > 95636, "Up To Uniswap");
-        TransferHelper.safeTransferFrom(
-            path[0],
-            msg.sender,
-            UniswapV2Library.pairFor(factory, path[0], path[1]),
-            amounts[0]
-        );
-        require(upTo > 95637, "Up To Uniswap");
-        _swap(amounts, path, to);
-        require(upTo > 95638, "Up To Uniswap");
-    }
-
     function swapExactTokensForTokens(
         uint amountIn,
         uint amountOutMin,
